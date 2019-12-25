@@ -29,8 +29,19 @@ public class Huffman {
     static Map<Pair<Integer, Integer>, Integer> freqs;
     static Map<Pair<Integer, Integer>, String> codes;
 
+    public static String encodingSplitter = "\r";
+    public static String dictionarySplitter = "/";
+
     static Node root;
 
+    public static String dictionaryToString(){
+        StringBuilder ret = new StringBuilder();
+        for (Map.Entry<Pair<Integer,Integer>,String> entry : codes.entrySet())
+            ret.append(entry.getValue()).append(dictionarySplitter).append(entry.getKey().getKey()).append(dictionarySplitter).append(entry.getKey().getValue());
+
+        return ret.toString();
+
+    }
     public static String encode(List<Pair<Integer, Integer>> data) {
         init();
         fillFrequencies(data);
@@ -38,7 +49,7 @@ public class Huffman {
 
         StringBuilder ret = new StringBuilder();
         for(Pair<Integer, Integer> current : data){
-            ret.append(codes.get(current)).append(",");
+            ret.append(codes.get(current)).append(encodingSplitter);
         }
         return ret.toString();
     }
@@ -50,8 +61,8 @@ public class Huffman {
         return ret;
     }
     private static void init() {
-        freqs = new HashMap<>();
-        codes = new HashMap<>();
+        freqs = new LinkedHashMap<>();
+        codes = new LinkedHashMap<>();
     }
 
     private static void fillFrequencies(List<Pair<Integer, Integer>> data) {
@@ -66,6 +77,7 @@ public class Huffman {
             if (o1.freq == o2.freq) return 1; // to give the second higher probability
             return Integer.compare(o1.freq, o2.freq);
         });
+        //PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(o -> o.freq));
         for (Map.Entry<Pair<Integer, Integer>, Integer> entry : freqs.entrySet())
             queue.add(new Node(entry.getKey(), entry.getValue()));
         return queue;
