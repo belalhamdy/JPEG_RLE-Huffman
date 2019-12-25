@@ -7,6 +7,10 @@ import java.io.PrintStream;
 import java.util.*;
 
 public class Huffman {
+    public static String encodingSplitter = "\r";
+    public static String dictionarySplitter = "/";
+    public static Pair<Integer,Integer> EOB = new Pair<>(0,0);
+
     private static class Node {
         String tempForTesting;
         Pair<Integer, Integer> symbol;
@@ -29,15 +33,12 @@ public class Huffman {
     static Map<Pair<Integer, Integer>, Integer> freqs;
     static Map<Pair<Integer, Integer>, String> codes;
 
-    public static String encodingSplitter = "\r";
-    public static String dictionarySplitter = "/";
-
     static Node root;
 
     public static String dictionaryToString(){
         StringBuilder ret = new StringBuilder();
         for (Map.Entry<Pair<Integer,Integer>,String> entry : codes.entrySet())
-            ret.append(entry.getValue()).append(dictionarySplitter).append(entry.getKey().getKey()).append(dictionarySplitter).append(entry.getKey().getValue());
+            ret.append(entry.getValue()).append(dictionarySplitter).append(entry.getKey().getKey()).append(dictionarySplitter).append(entry.getKey().getValue()).append('\n');
 
         return ret.toString();
 
@@ -52,13 +53,6 @@ public class Huffman {
             ret.append(codes.get(current)).append(encodingSplitter);
         }
         return ret.toString();
-    }
-    public static List<Pair<Integer,Integer>> decode(List<String> data, Map<String,Pair<Integer,Integer>> dict){
-        List<Pair<Integer,Integer>> ret = new ArrayList<>();
-        for(String curr : data){
-            ret.add(dict.getOrDefault(curr,null));
-        }
-        return ret;
     }
     private static void init() {
         freqs = new LinkedHashMap<>();

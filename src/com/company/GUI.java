@@ -46,6 +46,7 @@ public class GUI {
                 String text = readAllFromFile(fromtxt.getText());
                 String result = compressButtonPressed(text);
                 saveAllToFile(totxt.getText(), result);
+                Huffman.PrintTree(System.out);
             } catch (Exception ex) {
                 INVALID();
             }
@@ -55,6 +56,7 @@ public class GUI {
                 String text = compresstxt.getText();
                 String result = compressButtonPressed(text);
                 decompresstxt.setText(result);
+                Huffman.PrintTree(System.out);
             } catch (Exception ex) {
                 INVALID();
             }

@@ -46,7 +46,7 @@ public class JPEG_RLE {
                 lastIdx = i + 1;
             }
         }
-        pairs.add(Main.EOB);
+        pairs.add(Huffman.EOB);
         return new Pair<>(pairs, additionalBits);
     }
 
@@ -60,8 +60,9 @@ public class JPEG_RLE {
         String bitsText = textArray[0];
         Map<String, Pair<Integer, Integer>> dict = new LinkedHashMap<>();
         for (String line : textArray) {
+            if (line == null || line.isEmpty()) continue;
             String[] lineData = line.split(Huffman.dictionarySplitter);
-            dict.put(lineData[0], new Pair<>(Integer.parseInt(lineData[1]), Integer.parseInt(lineData[2])));
+            if (lineData.length == 3) dict.put(lineData[0], new Pair<>(Integer.parseInt(lineData[1]), Integer.parseInt(lineData[2])));
         }
 
         return new Pair<>(bitsText, dict);
@@ -94,7 +95,7 @@ public class JPEG_RLE {
             currentCode += bitsText.charAt(i);
             currentPair = dict.getOrDefault(currentCode, null);
 
-            if (currentPair != null) {
+            if (currentPair != null && !currentPair.equals(Huffman.EOB)) {
                 currentCode = "";
                 int numberOfBits = currentPair.getValue();
 
