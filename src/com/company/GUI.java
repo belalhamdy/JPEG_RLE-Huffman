@@ -97,7 +97,8 @@ public class GUI {
 
     static void saveAllToFile(String path, String data) throws FileNotFoundException {
         PrintWriter out = new PrintWriter(path);
-        out.println(data);
+        out.println(data.trim());
+        out.close();
     }
 
     static String readAllFromFile(String path) throws IOException {

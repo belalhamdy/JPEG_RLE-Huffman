@@ -62,7 +62,7 @@ public class JPEG_RLE {
         for (String line : textArray) {
             if (line == null || line.isEmpty()) continue;
             String[] lineData = line.split(Huffman.dictionarySplitter);
-            if (lineData.length == 3) dict.put(lineData[0], new Pair<>(Integer.parseInt(lineData[1]), Integer.parseInt(lineData[2])));
+            if (lineData.length == 3) dict.put(lineData[0].trim(), new Pair<>(Integer.parseInt(lineData[1].trim()), Integer.parseInt(lineData[2].trim())));
         }
 
         return new Pair<>(bitsText, dict);
